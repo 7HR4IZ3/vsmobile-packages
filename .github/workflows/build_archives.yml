@@ -27,8 +27,8 @@ jobs:
     steps:
       - name: Git clone
         uses: actions/checkout@v4
-      - name: Patch
-        run: ./patch-repo.sh
+      # - name: Patch
+      #   run: ./patch-repo.sh
       - name: Create bootstrap archive
         run: |
           ./scripts/setup-ubuntu.sh
