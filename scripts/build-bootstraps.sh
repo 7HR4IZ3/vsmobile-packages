@@ -391,7 +391,7 @@ main() {
 	done
 
 	for TERMUX_ARCH in "${TERMUX_ARCHITECTURES[@]}"; do
-		termux_step_handle_buildarch
+		# termux_step_handle_buildarch
 
 		if [[ $FORCE_BUILD_PACKAGES == "1" ]]; then
 			rm -f "$TERMUX_BUILT_PACKAGES_DIRECTORY_FOR_ARCH"/*
