@@ -30,7 +30,14 @@ jobs:
       - name: Patch
         run: ./patch-repo.sh
       - name: Create bootstrap archive
-        run: ./scripts/build-bootstraps.sh  --architectures ${{ matrix.arch }} --add termux-elf-cleaner --add gnupg --add libacl --add libcap --add zstd --add brotli
+        run: |
+          ./scripts/setup-ubuntu.sh
+            sudo apt install ninja-build
+            sudo apt purge -yq $(dpkg -l | grep '^ii' | awk '{ print $2 }' | grep -P '(aspnetcore|cabal-|dotnet-|ghc-|libmono|php)') \
+              firefox google-chrome-stable microsoft-edge-stable mono-runtime-common monodoc-manual ruby
+            sudo apt autoremove -yq
+            sudo rm -fr /opt/hostedtoolcache /usr/share/dotnet /usr/share/swift
+            NDK=$ANDROID_NDK_LATEST_HOME ANDROID_HOME=$ANDROID_SDK_ROOT ./scripts/build-bootstraps.sh  --architectures ${{ matrix.arch }} --add termux-elf-cleaner --add gnupg --add libacl --add libcap --add zstd --add brotli
       - name: Store artifacts
         uses: actions/upload-artifact@v4
         with:
